@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "tauri-deployment-template",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.tauri-deployment-template",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:4321",
@@ -26,6 +26,16 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": true,
+        "files": {}
+      },
+      "deb": {
+        "depends": [],
+        "files": {}
+      }
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
