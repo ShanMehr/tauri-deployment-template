@@ -34,7 +34,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-       - name: Set SHA output
+      - name: Set SHA output
         id: sha_output
         run: echo "sha=$(shasum -a 256 ./dist/app-v__VERSION__.tar.gz | awk '{print $1}') >> $GITHUB_OUTPUT
       
