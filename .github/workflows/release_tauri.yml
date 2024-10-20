@@ -33,15 +33,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-
-      - name: Set SHA output
-        id: sha_output
-        run: echo "sha=$(shasum -a 256 ./dist/app-v__VERSION__.tar.gz | awk '{print $1}') >> $GITHUB_OUTPUT
       
       - name: setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 'latest'
+
+      - name: Generate SHA256 hash
+        run: |
+          if [[ "${{ matrix.platform }}" == "ubuntu-22.04" ]]; then
+            echo "Generating SHA256 hash for Ubuntu..."
+            shasum -a 256 -- "$PWD/dist/app-vx.y.z.AppImage" > dist/ubuntu-sha256.txt
 
 
       - name: setup node
