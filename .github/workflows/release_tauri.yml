@@ -44,7 +44,7 @@ jobs:
           if [[ "${{ matrix.platform }}" == "ubuntu-22.04" ]]; then
             echo "Generating SHA256 hash for Ubuntu..."
             shasum -a 256 -- "$PWD/dist/app-vx.y.z.amd64.deb" > dist/ubuntu-sha256.txt
-
+          fi
 
       - name: setup node
         uses: actions/setup-node@v4
