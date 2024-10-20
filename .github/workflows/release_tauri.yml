@@ -72,9 +72,22 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
 
-      - name: Generate SHA256 hash
+      - name: Generate SHA256 hash for amd64.deb
+        if: matrix.platform == 'ubuntu-22.04'
         run: |
-          if [[ "${{ matrix.platform }}" == "ubuntu-22.04" ]]; then
-            echo "Generating SHA256 hash for Ubuntu..."
-            shasum -a 256 -- ${{ matrix.args }}
+          echo "Generating SHA256 hash for Ubuntu amd64.deb..."
+          DEB_FILE=$(find ./src-tauri/target/release/bundle/deb -name "*.deb" | head -n 1)
+          if [ -n "$DEB_FILE" ]; then
+            SHA256=$(sha256sum "$DEB_FILE" | awk '{print $1}')
+            echo "SHA256 hash: $SHA256"
+            echo "SHA256=$SHA256" >> $GITHUB_OUTPUT
+          else
+            echo "Error: amd64.deb file not found"
+            exit 1
           fi
+      - name: Upload SHA256 hash as artifact
+        if: matrix.platform == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v3
+        with:
+          name: deb-sha256
+          path: ${{ github.workspace }}/deb-sha256.txt
